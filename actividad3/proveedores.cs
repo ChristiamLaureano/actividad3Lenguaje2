@@ -244,15 +244,18 @@ namespace actividad3
 
         private void btnActualizar_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtProveedorID.Text))
+            
+        
+            // Validar que el ID no esté vacío
+            if (string.IsNullOrWhiteSpace(txtIDActualizar.Text))
             {
                 MessageBox.Show("Debes seleccionar un proveedor para actualizar.", "Advertencia",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Validar que el ID sea número válido
-            if (!int.TryParse(txtProveedorID.Text, out int proveedorId))
+            // Validar que el ID sea un número válido
+            if (!int.TryParse(txtIDActualizar.Text, out int proveedorId))
             {
                 MessageBox.Show("El ID del proveedor no es válido.", "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -260,7 +263,7 @@ namespace actividad3
             }
 
             // Validar nombre obligatorio
-            if (string.IsNullOrWhiteSpace(txtNombreProveedor.Text))
+            if (string.IsNullOrWhiteSpace(txtNombreActualizado.Text))
             {
                 MessageBox.Show("El nombre del proveedor es obligatorio.", "Advertencia",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -277,7 +280,8 @@ namespace actividad3
             using (SqlConnection connection = new SqlConnection(connectionString))
             using (SqlCommand cmd = new SqlCommand(sql, connection))
             {
-                cmd.Parameters.AddWithValue("@nombre", txtNombreProveedor.Text);
+                // Parámetros correctos con los textbox de actualización
+                cmd.Parameters.AddWithValue("@nombre", txtNombreActualizado.Text);
                 cmd.Parameters.AddWithValue("@telefono", textTelefonoActualizado.Text);
                 cmd.Parameters.AddWithValue("@correo", textCorreoElectronicoActualizado.Text);
                 cmd.Parameters.AddWithValue("@id", proveedorId);
@@ -290,7 +294,7 @@ namespace actividad3
                     if (rows > 0)
                     {
                         MessageBox.Show("Proveedor actualizado correctamente ✔️");
-                        CargarProveedores(); // Refresca el DataGridView
+                        CargarProveedores(); // Refresca el DataGridView después de actualizar
                     }
                     else
                     {
@@ -305,5 +309,6 @@ namespace actividad3
                 }
             }
         }
+
     }
- }
+}
